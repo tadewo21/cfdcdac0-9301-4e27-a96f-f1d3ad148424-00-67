@@ -66,17 +66,21 @@ export const FreelanceJobRequests = () => {
     try {
       setLoading(true);
       
-      // Use featured_job_requests table for freelance jobs (as per current system design)
+      // Fetch freelance job requests from employers (not admin-posted jobs)
       const { data, error } = await supabase
         .from("featured_job_requests")
         .select(`
           *,
-          jobs (
+          jobs!inner (
             title,
             city, 
             category,
             description,
-            job_type
+            job_type,
+            employers!inner (
+              id,
+              user_id
+            )
           ),
           employers (
             company_name,

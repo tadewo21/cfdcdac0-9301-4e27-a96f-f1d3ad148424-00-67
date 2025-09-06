@@ -124,6 +124,7 @@ export const UnifiedJobManagement = () => {
 
   const fetchJobRequests = async () => {
     try {
+      // Fetch job requests from employers (not admin-posted jobs)
       const { data, error } = await (supabase as any)
         .from("featured_job_requests")
         .select(`
@@ -134,7 +135,11 @@ export const UnifiedJobManagement = () => {
             city,
             category,
             deadline,
-            job_type
+            job_type,
+            employers!inner (
+              id,
+              user_id
+            )
           ),
           employers (
             company_name,
