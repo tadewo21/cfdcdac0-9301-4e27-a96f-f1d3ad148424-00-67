@@ -135,11 +135,7 @@ export const UnifiedJobManagement = () => {
             city,
             category,
             deadline,
-            job_type,
-            employers!inner (
-              id,
-              user_id
-            )
+            job_type
           ),
           employers (
             company_name,

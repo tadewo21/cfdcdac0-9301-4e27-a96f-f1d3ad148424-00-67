@@ -76,11 +76,7 @@ export const FreelanceJobRequests = () => {
             city, 
             category,
             description,
-            job_type,
-            employers!inner (
-              id,
-              user_id
-            )
+            job_type
           ),
           employers (
             company_name,
@@ -88,7 +84,7 @@ export const FreelanceJobRequests = () => {
           )
         `)
         .eq("jobs.job_type", "freelance")
-        .order("created_at", { ascending: false });
+        .order("submitted_at", { ascending: false });
 
       if (error && !error.message.includes('relation')) {
         throw error;
