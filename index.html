@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    
+    <!-- Performance Optimizations -->
+    <link rel="preconnect" href="https://zipdagizsbhalclcxnqm.supabase.co">
+    <link rel="dns-prefetch" href="//zipdagizsbhalclcxnqm.supabase.co">
+    
+    <!-- Critical CSS inlined for faster first paint -->
+    <style>
+      /* Critical path CSS - minimal styles for first paint */
+      body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: #ffffff; }
+      .loading { display: flex; justify-content: center; align-items: center; min-height: 100vh; flex-direction: column; gap: 1rem; }
+      .spinner { width: 32px; height: 32px; border: 3px solid #f3f3f3; border-top: 3px solid #3498db; border-radius: 50%; animation: spin 1s linear infinite; }
+      @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+      .loading-text { color: #666; font-size: 14px; }
+    </style>
+    
+    <!-- SEO and Meta Tags -->
+    <title>የስራ ፍለጋ መተግበሪያ - ለኢትዮጵያ | Ethiopian Jobs Telegram Mini App</title>
+    <meta name="description" content="በኢትዮጵያ ውስጥ ያሉትን ምርጥ የስራ እድሎች ይፈልጉ። በሺዎች የሚቆጠሩ ስራዎች፣ በተለያዩ ዘርፎች እና ከተሞች። Find the best job opportunities in Ethiopia." />
+    <meta name="author" content="Ethiopian Job Board" />
+    <meta name="keywords" content="ስራ ፍለጋ, ኢትዮጵያ, የስራ እድሎች, አዲስ አበባ, Ethiopia jobs, Ethiopian employment, career opportunities" />
+    <link rel="canonical" href="/" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="የስራ ፍለጋ መተግበሪያ - ለኢትዮጵያ | Ethiopian Jobs" />
+    <meta property="og:description" content="በኢትዮጵያ ውስጥ ያሉትን ምርጥ የስራ እድሎች ይፈልጉ። Find the best job opportunities in Ethiopia." />
+    <meta property="og:url" content="https://your-domain.com" />
+    <meta property="og:image" content="/assets/hero-optimized.webp" />
+    <meta property="og:locale" content="am_ET" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="የስራ ፍለጋ መተግበሪያ - Ethiopian Jobs" />
+    <meta name="twitter:description" content="በኢትዮጵያ ውስጥ ያሉትን ምርጥ የስራ እድሎች ይፈልጉ።" />
+    <meta name="twitter:image" content="/assets/hero-optimized.webp" />
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico" />
+    
+    <!-- Telegram Web App Script -->
+    <script src="https://telegram.org/js/telegram-web-app.js" defer></script>
+    
+    <!-- Telegram Mini App Manifest -->
+    <link rel="manifest" href="/telegram-web-app-manifest.json" />
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/assets/hero-optimized.webp" as="image" fetchpriority="high" />
+    <link rel="preload" href="/src/main.tsx" as="script" />
+    <link rel="modulepreload" href="/src/App.tsx" />
+    
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('SW registered'))
+            .catch(err => console.log('SW registration failed'));
+        });
+      }
+    </script>
+    
+    <!-- Performance monitoring -->
+    <script>
+      // Mark navigation start for performance measurement
+      window.performance?.mark('navigation-start');
+      
+      // Report Core Web Vitals
+      function reportWebVitals() {
+        if ('performance' in window && 'PerformanceObserver' in window) {
+          const observer = new PerformanceObserver((list) => {
+            for (const entry of list.getEntries()) {
+              console.log(`⚡ ${entry.name}: ${entry.startTime.toFixed(2)}ms`);
+            }
+          });
+          
+          try {
+            observer.observe({ entryTypes: ['paint', 'largest-contentful-paint'] });
+          } catch (e) {
+            // Fallback for browsers that don't support all entry types
+          }
+        }
+      }
+      
+      // Run after DOM is loaded
+      document.addEventListener('DOMContentLoaded', reportWebVitals);
+    </script>
+  </head>
+  <body>
+    <!-- Initial loading state with Ethiopian context -->
+    <div id="root">
+      <div class="loading">
+        <div class="spinner"></div>
+        <div class="loading-text">የስራ ፍለጋ መተግበሪያ ክፍት ላይ... Loading...</div>
+      </div>
+    </div>
+    
+    <!-- Main application script -->
+    <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Telegram Web App viewport fix -->
+    <script>
+      // Fix Telegram Web App viewport issues
+      if (window.Telegram?.WebApp) {
+        const webApp = window.Telegram.WebApp;
+        webApp.ready();
+        webApp.expand();
+        webApp.enableClosingConfirmation();
+        
+        // Fix viewport height for mobile
+        function setViewportHeight() {
+          const vh = (webApp.viewportHeight || window.innerHeight) * 0.01;
+          document.documentElement.style.setProperty('--vh', vh + 'px');
+        }
+        
+        setViewportHeight();
+        window.addEventListener('resize', setViewportHeight);
+        webApp.onEvent('viewportChanged', setViewportHeight);
+      } else {
+        // Fallback for non-Telegram environments
+        function setViewportHeight() {
+          const vh = window.innerHeight * 0.01;
+          document.documentElement.style.setProperty('--vh', vh + 'px');
+        }
+        
+        setViewportHeight();
+        window.addEventListener('resize', setViewportHeight);
+      }
+    </script>
+    
+    <!-- Emergency fallback for critical errors -->
+    <script>
+      window.addEventListener('error', (e) => {
+        console.error('Critical error:', e.error);
+        // Could show a fallback UI here
+      });
+      
+      window.addEventListener('unhandledrejection', (e) => {
+        console.error('Unhandled promise rejection:', e.reason);
+      });
+    </script>
+  </body>
+</html>

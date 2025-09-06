@@ -1,0 +1,53 @@
+{
+  "url": "https://403c84fa-402e-44ea-b38a-255f030b0022.lovableproject.com",
+  "name": "Zehulu Jobs - Ethiopian Job Board",
+  "short_name": "Zehulu Jobs", 
+  "description": "Find the best job opportunities in Ethiopia 🇪🇹 Thousands of jobs across various sectors and cities. Start your career journey today! የስራ ፍለጋ መተግበሪያ።",
+  "icons": [
+    {
+      "src": "/assets/hero-image.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "/assets/hero-optimized.webp",
+      "sizes": "512x512", 
+      "type": "image/webp"
+    }
+  ],
+  "background_color": "#f8fafc",
+  "theme_color": "#16a34a",
+  "display": "standalone",
+  "orientation": "portrait",
+  "start_url": "/",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["business", "productivity", "employment", "careers"],
+  "telegram_bot_username": "@ZehuluJobsBot",
+  "telegram_web_app": {
+    "button_color": "#16a34a",
+    "header_color": "#f1f5f9",
+    "background_color": "#f8fafc", 
+    "hint_color": "#64748b",
+    "text_color": "#1e293b",
+    "link_color": "#0ea5e9",
+    "secondary_bg_color": "#ffffff",
+    "supports_settings": true,
+    "supports_clipboard": true,
+    "supports_scan_qr": false,
+    "supports_back_button": true,
+    "supports_main_button": true,
+    "supports_haptic_feedback": true,
+    "supports_theme_params": true,
+    "version": "7.0"
+  },
+  "app_center_compliance": {
+    "age_restriction": "13+",
+    "primary_language": "en",
+    "secondary_language": "am", 
+    "free_functionality": true,
+    "privacy_policy_url": "/privacy",
+    "terms_of_service_url": "/terms",
+    "support_url": "/support"
+  }
+}
