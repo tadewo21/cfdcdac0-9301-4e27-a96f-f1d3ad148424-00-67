@@ -328,6 +328,20 @@ export const EmployerProfile = ({ onUpdate }: EmployerProfileProps) => {
           />
         </div>
         
+        {/* Manual Save Button */}
+        <div className="flex justify-end pt-4">
+          <Button 
+            onClick={handleManualSave} 
+            disabled={saving || !companyData.company_name}
+            className="flex items-center gap-2"
+          >
+            <Save className="h-4 w-4" />
+            {saving 
+              ? (language === 'am' ? "በመስቀመጥ ላይ..." : "Saving...") 
+              : (language === 'am' ? "ማስቀመጥ" : "Save Changes")
+            }
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );
