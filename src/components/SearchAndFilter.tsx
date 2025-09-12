@@ -83,35 +83,36 @@ export function SearchAndFilter({ onSearch }: SearchAndFilterProps) {
   };
 
   return (
-    <div className="bg-card border border-border rounded-xl p-2 md:p-6 shadow-sm w-full mx-auto">
-      <h2 className="text-base md:text-lg font-semibold mb-4 text-foreground">{t("search.title")}</h2>
+    <div className="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-gray-100 w-full max-w-4xl mx-auto">
+      <h2 className="text-2xl md:text-3xl font-bold text-gray-900 text-center mb-8">
+        Find Your Next Job
+      </h2>
       
-      {/* Professional Single Line Layout */}
-      <div className="flex flex-col md:flex-row gap-3 items-stretch w-full">
-        {/* Line 1: Search Input */}
-        <div className="relative flex-1 min-w-0 md:flex-1">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+      <div className="space-y-4">
+        {/* Search Input */}
+        <div className="relative w-full">
+          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
           <Input
-            placeholder={t("search.keyword")}
+            placeholder="Keyword (e.g., Driver, IT)"
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
-            className="pl-10 h-12 bg-background border-border text-sm md:text-base rounded-lg w-full"
+            className="pl-12 h-14 bg-gray-50 border-gray-200 text-base rounded-xl w-full focus:bg-white focus:border-primary transition-colors"
             onKeyDown={(e) => e.key === "Enter" && handleSearch()}
           />
         </div>
         
-        {/* Line 2: Location and Category (mobile grid) */}
-        <div className="flex flex-row md:flex-row gap-3 md:gap-3">
+        {/* Location and Category Dropdowns */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Location Select */}
-          <div className="relative md:w-48 flex-shrink-0">
-            <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground z-10" />
+          <div className="relative">
+            <MapPin className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 z-10" />
             <Select value={city} onValueChange={setCity}>
-              <SelectTrigger className="pl-10 h-12 bg-background border-border text-sm md:text-base rounded-lg w-full">
-                <SelectValue placeholder={t("search.selectCity")} />
+              <SelectTrigger className="pl-12 h-14 bg-gray-50 border-gray-200 text-base rounded-xl focus:bg-white focus:border-primary transition-colors">
+                <SelectValue placeholder="Select City" />
               </SelectTrigger>
-              <SelectContent className="bg-popover border border-border shadow-lg">
+              <SelectContent className="bg-white border border-gray-200 shadow-xl rounded-xl z-50">
                 {cities.map((cityOption) => (
-                  <SelectItem key={cityOption} value={cityOption}>
+                  <SelectItem key={cityOption} value={cityOption} className="text-base py-3">
                     {cityOption}
                   </SelectItem>
                 ))}
@@ -120,15 +121,15 @@ export function SearchAndFilter({ onSearch }: SearchAndFilterProps) {
           </div>
           
           {/* Category Select */}
-          <div className="relative md:w-48 flex-shrink-0">
-            <Briefcase className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground z-10" />
+          <div className="relative">
+            <Briefcase className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 z-10" />
             <Select value={category} onValueChange={setCategory}>
-              <SelectTrigger className="pl-10 h-12 bg-background border-border text-sm md:text-base rounded-lg w-full">
-                <SelectValue placeholder={t("search.selectCategory")} />
+              <SelectTrigger className="pl-12 h-14 bg-gray-50 border-gray-200 text-base rounded-xl focus:bg-white focus:border-primary transition-colors">
+                <SelectValue placeholder="Select Category" />
               </SelectTrigger>
-              <SelectContent className="bg-popover border border-border shadow-lg">
+              <SelectContent className="bg-white border border-gray-200 shadow-xl rounded-xl z-50">
                 {categories.map((categoryOption) => (
-                  <SelectItem key={categoryOption} value={categoryOption}>
+                  <SelectItem key={categoryOption} value={categoryOption} className="text-base py-3">
                     {categoryOption}
                   </SelectItem>
                 ))}
@@ -137,22 +138,21 @@ export function SearchAndFilter({ onSearch }: SearchAndFilterProps) {
           </div>
         </div>
         
-        {/* Line 3: Action Buttons */}
-        <div className="flex gap-2 md:flex-shrink-0">
+        {/* Action Buttons */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
           <Button 
             onClick={handleSearch} 
-            variant="default"
-            className="h-12 px-6 rounded-lg font-medium text-sm md:text-base min-w-[100px]"
+            className="h-14 bg-green-600 hover:bg-green-700 text-white rounded-xl font-semibold text-base transition-colors"
           >
-            <Search className="h-4 w-4 mr-2" />
-            {t("search.searchBtn")}
+            <Search className="h-5 w-5 mr-3" />
+            Search
           </Button>
           <Button 
             variant="outline" 
             onClick={handleReset}
-            className="h-12 px-4 rounded-lg font-medium text-sm md:text-base"
+            className="h-14 bg-gray-100 hover:bg-gray-200 text-gray-700 border-gray-200 rounded-xl font-semibold text-base transition-colors"
           >
-            {t("search.resetBtn")}
+            Reset
           </Button>
         </div>
       </div>
