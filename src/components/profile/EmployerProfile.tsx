@@ -45,14 +45,17 @@ export const EmployerProfile = ({ onUpdate }: EmployerProfileProps) => {
     
     setLoading(true);
     try {
-      // Check user profile first
+      // Check user profile first - use maybeSingle to avoid errors
       const { data: profile, error: profileError } = await supabase
         .from("profiles")
         .select("*")
         .eq("user_id", user.id)
-        .single();
+        .maybeSingle();
 
-      if (profileError && profileError.code !== "PGRST116") throw profileError;
+      if (profileError) {
+        console.error("Error loading profile:", profileError);
+        return;
+      }
 
       if (profile) {
         setUserProfile(profile);
@@ -64,10 +67,10 @@ export const EmployerProfile = ({ onUpdate }: EmployerProfileProps) => {
             .from("employers")
             .select("company_name, email, phone_number, company_logo_url, company_description, company_website, company_address, industry, company_size")
             .eq("email", user.email)
-            .single();
+            .maybeSingle();
 
-          if (employerError && employerError.code !== "PGRST116") {
-            console.log("No employer data found, will create on save");
+          if (employerError) {
+            console.error("Error loading employer data:", employerError);
           } else if (employerData) {
             const newCompanyData = {
               company_name: employerData.company_name || "",
@@ -81,6 +84,26 @@ export const EmployerProfile = ({ onUpdate }: EmployerProfileProps) => {
             setCompanyData(newCompanyData);
             onUpdate(newCompanyData);
           }
+        }
+      } else {
+        // Create profile if it doesn't exist
+        const { data: newProfile, error: createError } = await supabase
+          .from("profiles")
+          .upsert({
+            user_id: user.id,
+            user_type: "employer",
+            full_name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'User',
+            email: user.email!,
+          }, {
+            onConflict: 'user_id'
+          })
+          .select()
+          .single();
+
+        if (createError) {
+          console.error("Error creating profile:", createError);
+        } else {
+          setUserProfile(newProfile);
         }
       }
     } catch (error) {
@@ -114,45 +137,25 @@ export const EmployerProfile = ({ onUpdate }: EmployerProfileProps) => {
     try {
       setSaving(true);
       
-      // Check if employer record exists
-      const { data: existingEmployer } = await supabase
+      // Use upsert to handle both insert and update in one operation
+      const { error } = await supabase
         .from("employers")
-        .select("id")
-        .eq("email", user.email)
-        .maybeSingle();
+        .upsert({
+          company_name: data.company_name,
+          email: user.email!,
+          company_description: data.company_description || null,
+          company_website: data.company_website || null,
+          company_address: data.company_address || null,
+          industry: data.industry || null,
+          company_size: data.company_size || null,
+          company_logo_url: data.company_logo_url || null,
+        }, {
+          onConflict: 'email'
+        });
 
-      if (existingEmployer) {
-        // Update existing employer record
-        const { error } = await supabase
-          .from("employers")
-          .update({
-            company_name: data.company_name,
-            company_description: data.company_description,
-            company_website: data.company_website,
-            company_address: data.company_address,
-            industry: data.industry,
-            company_size: data.company_size,
-            company_logo_url: data.company_logo_url,
-          })
-          .eq("email", user.email);
-
-        if (error) throw error;
-      } else {
-        // Create new employer record
-        const { error } = await supabase
-          .from("employers")
-          .insert({
-            company_name: data.company_name,
-            email: user.email!,
-            company_description: data.company_description,
-            company_website: data.company_website,
-            company_address: data.company_address,
-            industry: data.industry,
-            company_size: data.company_size,
-            company_logo_url: data.company_logo_url,
-          });
-
-        if (error) throw error;
+      if (error) {
+        console.error("Supabase error:", error);
+        throw error;
       }
 
       toast({
@@ -328,20 +331,6 @@ export const EmployerProfile = ({ onUpdate }: EmployerProfileProps) => {
           />
         </div>
         
-        {/* Manual Save Button */}
-        <div className="flex justify-end pt-4">
-          <Button 
-            onClick={handleManualSave} 
-            disabled={saving || !companyData.company_name}
-            className="flex items-center gap-2"
-          >
-            <Save className="h-4 w-4" />
-            {saving 
-              ? (language === 'am' ? "በመስቀመጥ ላይ..." : "Saving...") 
-              : (language === 'am' ? "ማስቀመጥ" : "Save Changes")
-            }
-          </Button>
-        </div>
       </CardContent>
     </Card>
   );
